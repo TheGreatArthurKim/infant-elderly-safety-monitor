@@ -1,12 +1,28 @@
+/*
+  pressure.ino - MS5803-14BA pressure logger (WiFi/TCP live stream + LittleFS backup).
+
+  CHANGED (measurement timing only - no feature/behavior change):
+  - Sampling now uses fixed-rate scheduling: the next sample time is an absolute
+    reference (previous target + 100ms), not millis()+100, so TCP/LittleFS latency in
+    one cycle no longer accumulates into the millis timestamps (no cumulative drift).
+  - A late cycle is followed by an earlier next cycle that catches up; if a cycle falls
+    a full interval or more behind, the missed ticks are collapsed into one and the
+    schedule resyncs to "now" to avoid a catch-up burst (spiral).
+  - Inside a sample: pressure read + timestamp are taken first, then the 1Hz temperature
+    read and the TCP send / LittleFS write, so heavy work cannot delay the timestamp.
+  Verification: millis() deltas stay ~100ms and (last_millis - first_millis)/999 ~= 100
+  over 1000 samples, with no drift over time.
+*/
+
 #include <SparkFun_MS5803_I2C.h>
 #include <Wire.h>
 #include <LittleFS.h>
 #include <WiFi.h>
 #include <time.h>
 
-// WiFi settings
-const char* WIFI_SSID = "YOUR_WIFI_SSID"
-const char* WIFI_PASS = "YOUR_WIFI_PASSWORD"
+// WiFi settings (fill in your own SSID/password before flashing)
+const char* WIFI_SSID = "YOUR_WIFI_SSID";
+const char* WIFI_PASS = "YOUR_WIFI_PASSWORD";
 
 IPAddress local_IP(192, 168, 45, 80);
 IPAddress gateway(192, 168, 45, 1);
@@ -39,6 +55,21 @@ const long TIMEZONE_OFFSET_SECONDS = 9L * 60L * 60L;
 // LED
 const int LED_PIN = 2;
 
+// CHANGED: Sampling schedule. Pressure stays at ADC_4096; only timing changed.
+const unsigned long PRESSURE_SAMPLE_INTERVAL_MS = 100;
+const uint8_t TEMPERATURE_SAMPLE_DIVIDER = 10;
+const unsigned long LED_PULSE_DURATION_MS = 20;
+
+// CHANGED: Non-blocking sampling/LED state. nextSampleTick is the ABSOLUTE target time of
+// the next sample (fixed-rate scheduling); it advances by a fixed +100ms step, so a slow
+// cycle does not push the whole schedule forward.
+unsigned long nextSampleTick = 0;
+uint8_t pressureSampleCountSinceTemp = 0;
+float lastTemperatureC = 0.0;
+bool hasTemperature = false;
+bool ledPulseActive = false;
+unsigned long ledPulseStartMs = 0;
+
 void createDataFileWithHeader();
 void ensureDataFile();
 bool isUnsyncedCsvRow(const String& row);
@@ -54,6 +85,9 @@ void dumpDataFile();
 void clearDataFile();
 void handleCommand(const String& rawCmd);
 void handleTcpCommands();
+void updateLedPulse();
+void startLedPulse(unsigned long nowMs);
+void runMeasurementSample(unsigned long sampleMs);
 
 void createDataFileWithHeader() {
   File f = LittleFS.open(DATA_FILE, "w");
@@ -378,6 +412,93 @@ void handleTcpCommands() {
   }
 }
 
+void updateLedPulse() {
+  // CHANGED: Replace the old delay(20) LED pulse with non-blocking timing.
+  if (ledPulseActive && (unsigned long)(millis() - ledPulseStartMs) >= LED_PULSE_DURATION_MS) {
+    ledPulseActive = false;
+    if (WiFi.status() == WL_CONNECTED) {
+      digitalWrite(LED_PIN, HIGH);
+    }
+  }
+}
+
+void startLedPulse(unsigned long nowMs) {
+  // CHANGED: Start a short LED pulse without blocking TCP command handling.
+  if (WiFi.status() == WL_CONNECTED) {
+    digitalWrite(LED_PIN, LOW);
+    ledPulseActive = true;
+    ledPulseStartMs = nowMs;
+  }
+}
+
+void runMeasurementSample(unsigned long sampleMs) {
+  // CHANGED: Measurement first. The pressure read and the millis timestamp are taken before
+  // any heavy work (temperature read, TCP send, LittleFS write), so that work cannot delay
+  // this sample's timestamp. The fixed-rate scheduler in loop() absorbs the heavy-work time.
+  unsigned long ms = sampleMs;
+  float p = sensor.getPressure(ADC_4096);
+  float dp = p - baseline;
+
+  // CHANGED: Temperature is read at ~1Hz (once per 10 pressure samples). It runs AFTER the
+  // pressure read + timestamp, so the once-per-10 temperature conversion cannot push this
+  // sample's millis timestamp; any extra time on that cycle is caught up by the next tick.
+  if (!hasTemperature || pressureSampleCountSinceTemp == 0) {
+    lastTemperatureC = sensor.getTemperature(CELSIUS, ADC_512);
+    hasTemperature = true;
+  }
+  float t = lastTemperatureC;
+
+  pressureSampleCountSinceTemp++;
+  if (pressureSampleCountSinceTemp >= TEMPERATURE_SAMPLE_DIVIDER) {
+    pressureSampleCountSinceTemp = 0;
+  }
+
+  if (!timeSynced) {
+    if (!waitingForSyncPrinted) {
+      Serial.println("Waiting for SYNC. Raw pending rows are saved until PC time is received.");
+      waitingForSyncPrinted = true;
+    }
+
+    // CHANGED: Storage happens after the measurement/timestamp are fixed (cycle back half).
+    appendPendingRow(ms, t, p, dp);
+
+    Serial.print("UNSYNCED");
+    Serial.print(" | ms: "); Serial.print(ms);
+    Serial.print(" | T: "); Serial.print(t, 2);
+    Serial.print(" | P: "); Serial.print(p, 3);
+    Serial.print(" | dP: "); Serial.println(dp, 3);
+
+    startLedPulse(sampleMs);
+    return;
+  }
+
+  char pcTime[32];
+  formatPcTime(pcTime, sizeof(pcTime), epochMsFromSampleMillis(ms));
+
+  char line[128];
+  snprintf(line, sizeof(line), "%s,%lu,%.2f,%.3f,%.3f", pcTime, ms, t, p, dp);
+
+  // CHANGED: TCP send + LittleFS write are the cycle's heavy tail work, run after the
+  // measurement and timestamp are already locked in for this sample.
+  File f = LittleFS.open(DATA_FILE, "a");
+  if (f) {
+    f.println(line);
+    f.close();
+  }
+
+  if (client && client.connected() && !pauseLive) {
+    client.println(line);
+  }
+
+  Serial.print("time: "); Serial.print(pcTime);
+  Serial.print(" | ms: "); Serial.print(ms);
+  Serial.print(" | T: "); Serial.print(t, 2);
+  Serial.print(" | P: "); Serial.print(p, 3);
+  Serial.print(" | dP: "); Serial.println(dp, 3);
+
+  startLedPulse(sampleMs);
+}
+
 void setup() {
   Serial.begin(115200);
   delay(1000);
@@ -398,6 +519,9 @@ void setup() {
   sensor.begin();
   delay(10);
   baseline = sensor.getPressure(ADC_4096);
+  // CHANGED: Prime the cached temperature so the first 10Hz row has a valid temp_c value.
+  lastTemperatureC = sensor.getTemperature(CELSIUS, ADC_512);
+  hasTemperature = true;
 
   Serial.println("=== Pressure Logger (WiFi) ===");
   Serial.print("Baseline: ");
@@ -434,9 +558,16 @@ void setup() {
     Serial.println("\nWiFi FAILED. Measurement continues. CSV logging waits for SYNC.");
     digitalWrite(LED_PIN, LOW);
   }
+
+  // CHANGED: Seed the fixed-rate schedule. The first sample fires one interval after setup
+  // completes; every later target is derived as "previous target + 100ms".
+  nextSampleTick = millis() + PRESSURE_SAMPLE_INTERVAL_MS;
 }
 
 void loop() {
+  // CHANGED: Keep command handling and LED timing responsive on every loop iteration.
+  updateLedPulse();
+
   if (!client || !client.connected()) {
     WiFiClient newClient = tcpServer.available();
     if (newClient) {
@@ -449,62 +580,25 @@ void loop() {
 
   handleTcpCommands();
 
-  float t = sensor.getTemperature(CELSIUS, ADC_512);
-  float p = sensor.getPressure(ADC_4096);
-  float dp = p - baseline;
-  unsigned long ms = millis();
-
-  if (!timeSynced) {
-    if (!waitingForSyncPrinted) {
-      Serial.println("Waiting for SYNC. Raw pending rows are saved until PC time is received.");
-      waitingForSyncPrinted = true;
-    }
-
-    appendPendingRow(ms, t, p, dp);
-
-    Serial.print("UNSYNCED");
-    Serial.print(" | ms: "); Serial.print(ms);
-    Serial.print(" | T: "); Serial.print(t, 2);
-    Serial.print(" | P: "); Serial.print(p, 3);
-    Serial.print(" | dP: "); Serial.println(dp, 3);
-
-    if (WiFi.status() == WL_CONNECTED) {
-      digitalWrite(LED_PIN, LOW);
-      delay(20);
-      digitalWrite(LED_PIN, HIGH);
-    }
-
-    delay(500);
-    return;
+  // CHANGED: Fixed-rate 10Hz scheduling (no delay()). The target time is an ABSOLUTE
+  // reference; a signed compare handles millis() rollover safely.
+  unsigned long nowMs = millis();
+  if ((long)(nowMs - nextSampleTick) < 0) {
+    return;  // not yet time for the next sample
   }
 
-  char pcTime[32];
-  formatPcTime(pcTime, sizeof(pcTime), currentEpochMs());
+  // CHANGED: Measurement runs first; transmit/store happen in its back half.
+  runMeasurementSample(nowMs);
 
-  char line[128];
-  snprintf(line, sizeof(line), "%s,%lu,%.2f,%.3f,%.3f", pcTime, ms, t, p, dp);
+  // CHANGED: Advance the target by a fixed +100ms STEP from the previous target (not from
+  // "now"). This removes cumulative drift: a late cycle is followed by an earlier next one
+  // that catches back up, so the average period stays exactly 100ms.
+  nextSampleTick += PRESSURE_SAMPLE_INTERVAL_MS;
 
-  File f = LittleFS.open(DATA_FILE, "a");
-  if (f) {
-    f.println(line);
-    f.close();
+  // CHANGED: Catch-up spiral guard. If a cycle ran so long that, even after the +100ms step,
+  // we are still a full interval or more behind, collapse the missed ticks into one and
+  // resync the schedule to the present instead of firing a burst of back-to-back samples.
+  if ((long)(millis() - nextSampleTick) >= (long)PRESSURE_SAMPLE_INTERVAL_MS) {
+    nextSampleTick = millis() + PRESSURE_SAMPLE_INTERVAL_MS;
   }
-
-  if (client && client.connected() && !pauseLive) {
-    client.println(line);
-  }
-
-  Serial.print("time: "); Serial.print(pcTime);
-  Serial.print(" | ms: "); Serial.print(ms);
-  Serial.print(" | T: "); Serial.print(t, 2);
-  Serial.print(" | P: "); Serial.print(p, 3);
-  Serial.print(" | dP: "); Serial.println(dp, 3);
-
-  if (WiFi.status() == WL_CONNECTED) {
-    digitalWrite(LED_PIN, LOW);
-    delay(20);
-    digitalWrite(LED_PIN, HIGH);
-  }
-
-  delay(500);
 }

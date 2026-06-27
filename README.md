@@ -8,7 +8,7 @@
 
 > 기술적 한계·미검증 항목은 [RISKS.md](./RISKS.md)에 사전 공개한다. 모든 정확도·분해능 수치는 실측 대체 전까지 데이터시트/참고문헌 **인용 기준**이다.
 
-> 상세 설계는 [시스템 기술 설계서](./system-design-document.pdf)를 참고한다. (압력 제품 + 장기 융합 비전)
+> 상세 설계는 [system-design-document](./system-design-document.pdf)를 참고한다. (압력 제품 + 장기 융합 비전)
 
 ---
 

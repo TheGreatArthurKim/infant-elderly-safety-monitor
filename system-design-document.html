@@ -4,23 +4,23 @@
 <meta charset="UTF-8">
 <title>System Design Document</title>
 <style>
-@page { size: A4; margin: 0; background-color: #F8F9F6; }
+@page { size: A4; margin: 0; }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-html, body { font-family: "Noto Sans CJK KR", "Noto Sans KR", sans-serif; font-weight: 400; color: #111; background: #F8F9F6 !important; line-height: 1.55; font-size: 9.5pt; -webkit-font-smoothing: antialiased; }
-.page { width: 100%; min-height: 277mm; padding: 18mm 16mm 14mm 16mm; background-color: #F8F9F6 !important; page-break-after: always; position: relative; }
+html, body { font-family: "Noto Sans CJK KR", "Noto Sans KR", sans-serif; font-weight: 400; color: #111; background: #F8F9F6; line-height: 1.55; font-size: 9.5pt; }
+.page { width: 100%; min-height: 297mm; padding: 18mm 16mm 16mm 16mm; background-color: #F8F9F6; page-break-after: always; position: relative; }
 .page:last-child { page-break-after: auto; }
 
-.cover { display: flex; flex-direction: column; justify-content: space-between; padding: 40mm 18mm 20mm 18mm; }
-.cover-meta { font-size: 8.5pt; letter-spacing: 4pt; color: #0047AB !important; font-weight: 600; margin-bottom: 22mm; }
+.cover { display: flex; flex-direction: column; justify-content: space-between; padding: 40mm 18mm 24mm 18mm; }
+.cover-meta { font-size: 8.5pt; letter-spacing: 4pt; color: #0047AB; font-weight: 600; margin-bottom: 22mm; }
 .cover-title { font-size: 13pt; color: #444; font-weight: 400; margin-bottom: 4mm; letter-spacing: 0.5pt; }
 .cover-title-main { font-size: 26pt; color: #111; font-weight: 700; line-height: 1.3; margin-bottom: 14mm; letter-spacing: -0.5pt; }
-.cover-subtitle { font-size: 11pt; color: #555; line-height: 1.55; max-width: 140mm; border-top: 1px solid #111; padding-top: 5mm; }
+.cover-subtitle { font-size: 11pt; color: #555; line-height: 1.55; max-width: 150mm; border-top: 1px solid #111; padding-top: 5mm; }
 .cover-facts { display: flex; flex-wrap: wrap; padding-top: 12mm; border-top: 1px solid #111; }
 .cover-fact { width: 50%; padding: 6mm 6mm 0 0; }
-.cover-fact-label { font-size: 7.5pt; letter-spacing: 2pt; color: #0047AB !important; font-weight: 600; margin-bottom: 2mm; }
+.cover-fact-label { font-size: 7.5pt; letter-spacing: 2pt; color: #0047AB; font-weight: 600; margin-bottom: 2mm; }
 .cover-fact-value { font-size: 10pt; color: #111; font-weight: 500; }
 
-.section-tag { font-size: 8pt; letter-spacing: 3pt; color: #0047AB !important; font-weight: 600; margin-bottom: 3mm; }
+.section-tag { font-size: 8pt; letter-spacing: 3pt; color: #0047AB; font-weight: 600; margin-bottom: 3mm; }
 .section-title { font-size: 21pt; color: #111; font-weight: 700; line-height: 1.25; margin-bottom: 2mm; letter-spacing: -0.5pt; }
 .section-subtitle { font-size: 9pt; color: #777; font-weight: 400; margin-bottom: 6mm; padding-bottom: 3mm; border-bottom: 1px solid #111; }
 
@@ -28,51 +28,29 @@ p { margin-bottom: 3.5mm; text-align: justify; }
 h3 { font-size: 11pt; font-weight: 700; color: #111; margin: 5mm 0 2.5mm 0; border-left: 3px solid #0047AB; padding-left: 3mm; line-height: 1.3; }
 
 table { width: 100%; border-collapse: collapse; margin: 2.5mm 0 4mm 0; font-size: 8.5pt; }
-th { background: #0047AB !important; color: #fff !important; font-weight: 600; text-align: left; padding: 2mm 2.5mm; font-size: 8pt; letter-spacing: 0.3pt; }
-td { padding: 2.2mm 2.5mm; border-bottom: 1px solid #ccc; vertical-align: top; color: #222; background: #ffffff !important; }
+th { background: #0047AB; color: #fff; font-weight: 600; text-align: left; padding: 2mm 2.5mm; font-size: 8pt; letter-spacing: 0.3pt; }
+td { padding: 2.2mm 2.5mm; border-bottom: 1px solid #ccc; vertical-align: top; color: #222; background: #ffffff; }
 tr:last-child td { border-bottom: 1px solid #111; }
 
-.callout { background: #ffffff !important; border-left: 4px solid #0047AB; padding: 3.5mm 4.5mm; margin: 3mm 0; font-size: 8.8pt; color: #333; }
-.callout-label { font-size: 7.5pt; letter-spacing: 2pt; color: #0047AB !important; font-weight: 700; margin-bottom: 2mm; }
+.callout { background: #ffffff; border-left: 4px solid #0047AB; padding: 3.5mm 4.5mm; margin: 3mm 0; font-size: 8.8pt; color: #333; }
+.callout-label { font-size: 7.5pt; letter-spacing: 2pt; color: #0047AB; font-weight: 700; margin-bottom: 2mm; }
 
 .steps { display: flex; flex-wrap: wrap; margin: 3mm 0; }
-.step { width: 49%; margin: 0 2% 1.5mm 0; background: #ffffff !important; border: 1px solid #111; padding: 3mm 4mm; }
+.step { width: 49%; margin: 0 2% 1.5mm 0; background: #ffffff; border: 1px solid #111; padding: 3mm 4mm; }
 .step:nth-child(2n) { margin-right: 0; }
-.step-num { font-size: 13pt; color: #0047AB !important; font-weight: 700; line-height: 1; margin-bottom: 1.8mm; }
+.step-num { font-size: 13pt; color: #0047AB; font-weight: 700; line-height: 1; margin-bottom: 1.8mm; }
 .step-title { font-size: 9.3pt; font-weight: 700; color: #111; margin-bottom: 1.2mm; }
 .step-desc { font-size: 8.3pt; color: #444; line-height: 1.45; }
 
-.grade { display: inline-block; padding: 0.3mm 1.8mm; font-size: 7.8pt; font-weight: 700; color: #fff !important; min-width: 4mm; text-align: center; line-height: 1.3; }
-.grade-A { background: #0047AB !important; }
-.grade-B { background: #555 !important; }
-.grade-C { background: #c00 !important; }
+.algo { background: #1a1a1a; color: #e8e8e8; padding: 3mm 4mm; font-family: "DejaVu Sans Mono", monospace; font-size: 7.8pt; line-height: 1.6; margin: 2mm 0 3mm 0; border-left: 4px solid #0047AB; white-space: pre-wrap; }
+.algo .c { color: #7faaff; }
 
-.grade-legend { display: flex; flex-wrap: wrap; margin: 2mm 0 3mm 0; font-size: 8.3pt; color: #444; }
-.grade-legend-item { display: inline-flex; align-items: center; margin-right: 8mm; }
-.grade-legend-item .grade { margin-right: 2mm; }
-
-.category-row td { background: #efeee9 !important; font-weight: 600; color: #0047AB !important; font-size: 8.3pt; }
-
-.algo { background: #1a1a1a !important; color: #e8e8e8 !important; padding: 3mm 4mm; font-family: "DejaVu Sans Mono", monospace; font-size: 7.8pt; line-height: 1.6; margin: 2mm 0 3mm 0; border-left: 4px solid #0047AB; white-space: pre; overflow: hidden; }
-.algo .comment { color: #7faaff !important; }
-
-.algo-row { display: flex; margin-bottom: 3mm; }
-.algo-col { width: 49%; margin-right: 2%; }
-.algo-col:last-child { margin-right: 0; }
-
-.summary-row { display: flex; margin: 3mm 0; }
-.summary-box { width: 32%; margin-right: 2%; background: #ffffff !important; border: 1px solid #111; padding: 3mm 4mm; }
-.summary-box:last-child { margin-right: 0; }
-.summary-box-num { font-size: 16pt; font-weight: 700; color: #0047AB !important; line-height: 1; }
-.summary-box-label { font-size: 7.5pt; letter-spacing: 1.5pt; color: #0047AB !important; font-weight: 600; margin-bottom: 1.5mm; }
-.summary-box-text { font-size: 8.3pt; color: #444; margin-top: 1.5mm; }
-
-.phase-strip { display: flex; margin: 3mm 0; }
-.phase-cell { width: 32.66%; margin-right: 1%; background: #0047AB !important; color: #fff !important; padding: 3mm 4mm; text-align: center; }
-.phase-cell:last-child { margin-right: 0; }
-.phase-cell-tag { font-size: 7.5pt; letter-spacing: 2pt; font-weight: 600; color: #ffffff !important; }
-.phase-cell-title { font-size: 12pt; font-weight: 700; margin: 2mm 0 1.5mm 0; color: #fff !important; }
-.phase-cell-sub { font-size: 8pt; color: #fff !important; }
+.phase-strip { display: flex; flex-wrap: wrap; margin: 3mm 0; }
+.phase-cell { width: 32.66%; margin: 0 1% 1mm 0; background: #0047AB; color: #fff; padding: 3mm 4mm; text-align: center; }
+.phase-cell:nth-child(3n) { margin-right: 0; }
+.phase-cell-tag { font-size: 7.5pt; letter-spacing: 2pt; font-weight: 600; color: #fff; }
+.phase-cell-title { font-size: 11pt; font-weight: 700; margin: 2mm 0 1.5mm 0; color: #fff; }
+.phase-cell-sub { font-size: 8pt; color: #fff; }
 
 .pg-footer { position: absolute; bottom: 8mm; left: 16mm; right: 16mm; padding-top: 2.5mm; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 7.5pt; color: #888; letter-spacing: 1pt; }
 
@@ -80,10 +58,8 @@ ul { margin: 2mm 0 3mm 5mm; }
 li { margin-bottom: 1.5mm; font-size: 8.7pt; color: #222; }
 
 strong { font-weight: 700; color: #111; }
-em { font-style: normal; font-weight: 600; color: #0047AB !important; }
-
-.tight td { padding: 1.6mm 2.5mm; font-size: 8.2pt; }
 .note { font-size: 8pt; color: #555; margin-top: 2mm; }
+.tag-vision { display: inline-block; background: #555; color: #fff; font-size: 7pt; font-weight: 700; letter-spacing: 1pt; padding: 0.5mm 2mm; vertical-align: middle; }
 </style>
 </head>
 <body>
@@ -92,356 +68,285 @@ em { font-style: normal; font-weight: 600; color: #0047AB !important; }
 <div class="page cover">
   <div>
     <div class="cover-meta">S Y S T E M &nbsp;&nbsp; D E S I G N &nbsp;&nbsp; D O C U M E N T</div>
-    <div class="cover-title">비접촉 AI 안전 모니터링 디바이스</div>
+    <div class="cover-title">비접촉 입욕 안전 모니터링 시스템</div>
     <div class="cover-title-main">시스템 기술 설계서</div>
-    <div class="cover-subtitle">영유아 욕조 익사부터 독거노인 낙상까지<br>카메라·웨어러블 없는 통합 안전 감지</div>
+    <div class="cover-subtitle">수중 압력의 시간 패턴으로 정상 입욕과 익수를 분리한다<br>카메라·웨어러블 없는 입욕 안전 + 장기 융합 비전</div>
   </div>
   <div class="cover-facts">
     <div class="cover-fact"><div class="cover-fact-label">POSITIONING</div><div class="cover-fact-value">안전 알림 디바이스 (의료기기 비해당 목표)</div></div>
-    <div class="cover-fact"><div class="cover-fact-label">SENSOR FUSION</div><div class="cover-fact-value">60GHz mmWave + 수중압력 + IR Thermal + PIR</div></div>
-    <div class="cover-fact"><div class="cover-fact-label">ARCHITECTURE</div><div class="cover-fact-value">메인 허브 (거실·안방) + 워치독 (욕실)</div></div>
-    <div class="cover-fact"><div class="cover-fact-label">COMMUNICATION</div><div class="cover-fact-value">ESP-NOW (30~50m, 인용 기준)</div></div>
+    <div class="cover-fact"><div class="cover-fact-label">CORE IP</div><div class="cover-fact-value">수중 압력 dP 시간패턴 — 복귀형 vs 지속형 분리</div></div>
+    <div class="cover-fact"><div class="cover-fact-label">CURRENT PHASE</div><div class="cover-fact-value">Phase A — 분리 가능성 검증 (진행/피벗 게이트)</div></div>
+    <div class="cover-fact"><div class="cover-fact-label">V1 ARCHITECTURE</div><div class="cover-fact-value">방수 센서 → Sub-GHz → 허브 → Cloud → 앱</div></div>
   </div>
 </div>
 
 <!-- SECTION 01 -->
 <div class="page">
   <div class="section-tag">SECTION 01</div>
-  <div class="section-title">시스템 개요 및 센서 아키텍처</div>
-  <div class="section-subtitle">System Overview &amp; Sensor Architecture</div>
+  <div class="section-title">제품 정의 및 현재 우선순위</div>
+  <div class="section-subtitle">Product Definition &amp; Current Priority</div>
 
-  <p>본 디바이스는 한 가구 안에서 영유아부터 노인까지의 안전을 단일 시스템으로 보호한다. 거실·안방의 메인 허브와 욕실의 워치독이 ESP-NOW로 연동되며, 카메라를 사용하지 않고 비접촉 센서 융합으로 호흡·움직임·낙상·체온 변화·수면 변화를 감지해 보호자에게 즉시 알린다.</p>
+  <p>본 제품은 욕조에 넣는 완전 방수 압력 센서로 <strong>정상 입욕과 위험 상황(익수 가능성)을 구분</strong>해 보호자에게 알리는 비접촉 안전 디바이스다. 카메라·웨어러블을 쓰지 않는다. 영유아 욕조 익사와 노약자 입욕 사고를 1차 대상으로 한다. 핵심 기술은 수중 압력의 시간 패턴(dP)으로 정상 입욕과 익수를 분리하는 것이다.</p>
 
-  <h3>센서 구성</h3>
+  <div class="callout">
+    <div class="callout-label">CURRENT PRIORITY</div>
+    현재 단계는 <strong>Phase A</strong>다. "압력 데이터만으로 정상 입욕과 익수가 실제로 분리되는가"를 검증한다. 이 검증(진행/피벗 게이트)이 통과되기 전에는 Sub-GHz 통신·메인 허브·클라우드·앱·양산 하드웨어를 착수하지 않는다. 기술 리스크를 가장 먼저 제거하는 것이 최우선이다.
+  </div>
+
+  <h3>설계 원칙</h3>
   <table>
-    <thead><tr><th>센서</th><th>모델</th><th>역할</th><th>설치 위치</th></tr></thead>
+    <thead><tr><th style="width:26%">원칙</th><th>내용</th></tr></thead>
     <tbody>
-      <tr><td>60GHz mmWave 레이더</td><td>MR60BHA2 / MR60FDA2</td><td>호흡·심박·재실 / 낙상</td><td>메인 허브 · 워치독</td></tr>
-      <tr><td>수중 압력 센서</td><td>MS5803-14BA</td><td>욕조 수면 변화 직접 검출</td><td>워치독 (욕조)</td></tr>
-      <tr><td>IR Thermal Array</td><td>MLX90640 / MLX90641</td><td>인체 존재·머리 위치·체온</td><td>메인 허브 · 워치독</td></tr>
-      <tr><td>PIR</td><td>HC-SR501</td><td>움직임 이벤트 (보조 트리거)</td><td>메인 허브</td></tr>
+      <tr><td>1차 신호 = 수중 압력</td><td>잠긴 신체 부피 변화 → 수면 변화 → 압력. 카메라·레이더가 못 보는 수중을 물리적으로 직접 측정한다.</td></tr>
+      <tr><td>스칼라 dP로는 부족</td><td>격한 물장구와 익수는 <strong>크기가 겹친다.</strong> 실제 분리축은 시간 패턴(복귀형 vs 지속형)이다.</td></tr>
+      <tr><td>생명 알림은 로컬 우선</td><td>인터넷이 끊겨도 동작해야 한다. 클라우드·앱은 원격 조회 보조, 응급 경보는 로컬(허브 자체)이 1차다.</td></tr>
+      <tr><td>가역성</td><td>검증 단계 — 단일 센서. 비가역 하드웨어 처리(실리콘 밀봉 등)를 금지한다.</td></tr>
     </tbody>
   </table>
 
-  <h3>사용자 모드 자동 분기</h3>
-  <p>설치 위치(메인 허브/워치독), 신체 크기(IR 분해), 활동 패턴(시간대·궤적)을 기준으로 사용자를 자동 분류하여 모드별 맞춤 감지 로직을 적용한다.</p>
+  <p class="note">설계서의 정확도·분해능 수치는 실측 대체 전까지 데이터시트/참고문헌 인용 기준이며 자체 검증값이 아니다. 한계·미검증 항목은 RISKS.md에 사전 공개한다.</p>
 
-  <div class="steps">
-    <div class="step"><div class="step-num">A</div><div class="step-title">노인 모드 — 거실·침실</div><div class="step-desc">낙상 5단계 필터 + 6개 카테고리 통합 점수(S_total) 산출. 장시간 무움직임·패턴 이탈 감지.</div></div>
-    <div class="step"><div class="step-num">B</div><div class="step-title">욕실 낙상 — 성인 공용</div><div class="step-desc">욕조 캘리브레이션 후 수직 변화·호흡 소실 판정. 수증기 환경 보정 학습.</div></div>
-    <div class="step"><div class="step-num">C</div><div class="step-title">영유아 욕조 — 욕조 내</div><div class="step-desc">압력 1차 트리거 → 인체 확인 → 머리 위치 → 호흡 부재 검증의 4단계 직렬 필터.</div></div>
-    <div class="step"><div class="step-num">&Sigma;</div><div class="step-title">통합 응급도 점수</div><div class="step-desc">단일 신호(낙상만·호흡만)는 오탐이 많다. 각 카테고리 신호를 가중 합산해 SNR을 높이고 [일반 / 주의 / 위급] 3단계로 분기.</div></div>
-  </div>
-
-  <div class="pg-footer"><span>비접촉 AI 안전 모니터링 디바이스 — 시스템 기술 설계서</span><span>01</span></div>
+  <div class="pg-footer"><span>비접촉 입욕 안전 모니터링 시스템 — 시스템 기술 설계서</span><span>01</span></div>
 </div>
 
 <!-- SECTION 02 -->
 <div class="page">
   <div class="section-tag">SECTION 02</div>
-  <div class="section-title">60GHz mmWave 전환 및 욕조 익사 검출 구조</div>
-  <div class="section-subtitle">60GHz Migration &amp; Bathtub Drowning Detection</div>
+  <div class="section-title">압력 검출 원리 및 Phase A 검증 설계</div>
+  <div class="section-subtitle">Pressure Detection Principle &amp; Phase A Validation</div>
 
-  <h3>왜 60GHz인가 — 거리 분해능</h3>
-  <p>레이더 거리 분해능은 &Delta;R = c / (2B) (c=광속, B=대역폭)으로 결정된다. 24GHz 모듈(LD2410C)은 대역폭이 좁아 <strong>물리 거리 분해능이 0.75m</strong>이며 알고리즘 처리로 0.2m까지 가능하나, 영유아가 욕조에서 가라앉는 수십 cm 단위 변화 검출에는 여전히 부족하다. 60GHz FMCW는 GHz 단위의 넓은 대역폭을 사용해 거리 분해능이 cm 단위로 향상되며, 호흡·심박 등 미세 진동 검출 정확도(<strong>호흡 MAE 0.8~1.01 BPM, 심박 MAE 2.06~2.18 BPM, 인용 기준</strong>)도 24GHz 대비 우월하다.</p>
-
-  <h3>핵심 설계 원칙 — 60GHz는 메인이 아니라 교차검증 센서</h3>
   <div class="callout">
-    <div class="callout-label">DESIGN PRINCIPLE</div>
-    60GHz mmWave는 욕조 익사를 단독으로 "감지"하는 메인 센서가 아니다. 물은 60GHz 전자파를 강하게 흡수하므로, 영유아가 물에 잠기는 바로 그 순간 레이더 신호가 급감한다. 따라서 물리적으로 가장 확실한 1차 신호는 <strong>수중 압력</strong>이며, 60GHz는 압력 센서가 1차로 포착한 사건을 "사람이 맞는가 / 호흡이 없는가"로 교차 검증하는 역할로 재정의한다.
+    <div class="callout-label">CORE PRINCIPLE — 복귀형 vs 지속형</div>
+    정상 목욕의 출렁임은 일시적이며 dP가 곧 baseline으로 <strong>복귀</strong>한다(복귀형). 익수 상황의 잠김은 수위가 한 단계 올라간 뒤 <strong>지속</strong>된다(지속형, 레벨 시프트 유지). 스칼라 dP의 크기만으로는 둘이 겹치므로, 분리는 dP의 시간 전개 패턴에서 이뤄진다.
   </div>
 
+  <h3>패턴 특징 F1~F6</h3>
   <table>
-    <thead><tr><th style="width:22%">항목</th><th>60GHz mmWave 단독</th><th>수중 압력 1차 + 60GHz 2차</th></tr></thead>
+    <thead><tr><th style="width:14%">특징</th><th style="width:28%">정의</th><th>분리 근거</th></tr></thead>
     <tbody>
-      <tr><td>물에 잠긴 상태</td><td>신호 급감 — 익사·부재·정지 구분 불가</td><td>압력은 수중에서도 신호 유지</td></tr>
-      <tr><td>오탐 원천</td><td>욕조 비어있음 vs 익사 혼동</td><td>압력 변화 패턴으로 1차 분리</td></tr>
-      <tr><td>의료기기 경계</td><td>호흡·심박 의료적 측정 우려</td><td>"수면 변화" 비의료 모니터링으로 명확</td></tr>
-      <tr><td>구현 난이도 (학부)</td><td>레이더 raw 신호 처리 필요</td><td>압력 I2C + 60GHz UART 결과값 활용</td></tr>
+      <tr><td>F1 지속성</td><td>dP가 임계 위에 머무는 시간</td><td>지속형은 길고 복귀형은 짧다</td></tr>
+      <tr><td>F2 복귀</td><td>baseline 복귀 여부</td><td>출렁임은 복귀, 잠김은 미복귀</td></tr>
+      <tr><td>F3 복귀 시간</td><td>피크에서 baseline까지 시간</td><td>복귀형의 핵심 지표</td></tr>
+      <tr><td>F4 빈도</td><td>FFT/PSD 주파수 성분</td><td>출렁임은 주기적 피크, 잠김 정착은 저주파·비주기 — 핵심 분리축</td></tr>
+      <tr><td>F5 누적 dP</td><td>구간 dP 적분</td><td>지속형이 크게 누적</td></tr>
+      <tr><td>F6 단조성</td><td>상승 후 유지의 단조 정도</td><td>잠김은 단조적 레벨 시프트</td></tr>
     </tbody>
   </table>
 
-  <h3>영유아 욕조 — 4단계 직렬 필터</h3>
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><div class="step-title">수중 압력 1차 트리거</div><div class="step-desc">MS5803-14BA가 수면 급변을 직접 검출 (&Delta;P 임계값 초과)</div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-title">mmWave 인체 확인</div><div class="step-desc">60GHz로 욕조 영역 내 인체 존재 여부 확인</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-title">IR 머리 위치 추적</div><div class="step-desc">MLX90640 열화상으로 머리 위치·수면 대비 판정</div></div>
-    <div class="step"><div class="step-num">4</div><div class="step-title">호흡 부재 검증</div><div class="step-desc">호흡 신호 부재가 t초 지속 시 위급 확정</div></div>
-  </div>
+  <h3>시나리오 및 반복</h3>
+  <p>정상 N1~N6, 익수 D1~D5를 정의한다. 정상과 익수가 가장 헷갈리는 <strong>충돌쌍(N4-D5, N2-D3, N5-D2)</strong>이 분리 가능성의 실제 시험대다. 일반 시나리오는 시나리오당 30회 이상, 충돌쌍은 50회 이상 반복한다. 약 360회 시점에 중간 판정을 두어 가망이 없으면 조기에 피벗한다.</p>
 
-  <p class="note">단일 센서 한계 극복. 압력 → 인체 → 머리 위치 → 호흡 부재를 직렬로 통과시켜 각 센서의 약점을 다음 단계가 보완한다. 욕조 환경 특성상 베타 가구 실측 검증이 필수이며, 정확도 수치는 검증 전 가설로 표기한다.</p>
+  <h3>분석 방법</h3>
+  <p>특징별 분리 크기는 Cohen's d(진단), 통합 분류 성능은 ROC/AUC(핵심 게이트), 신호 품질은 SNR로 본다. F4 빈도는 FFT/PSD로 추출해 출렁임(주기적)과 잠김(저주파·비주기)을 가른다. 분류기는 F1~F6 기반 로지스틱 회귀·결정트리를 쓰고, 소표본 과적합은 Leave-One-Trial-Out CV로 막는다. 표본이 작아 딥러닝은 쓰지 않는다(과적합·과대 해석 우려).</p>
 
-  <div class="pg-footer"><span>Section 02 · 60GHz Migration</span><span>02</span></div>
+  <h3>Phase A 판정 기준 (확정)</h3>
+  <table>
+    <thead><tr><th style="width:18%">게이트</th><th style="width:16%">지표</th><th style="width:16%">기준</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>신호 존재</td><td>SNR</td><td>≥ 10 dB</td><td>20·log10(|peak dP| / σ), σ=0.5mbar → peak dP ≥ 1.58mbar</td></tr>
+      <tr><td>분리력 (핵심)</td><td>AUC</td><td>≥ 0.90</td><td>충돌쌍별, F1~F6 통합 분류기, Leave-One-Trial-Out CV</td></tr>
+      <tr><td>진단</td><td>Cohen's d</td><td>핵심특징 ≥ 1.5</td><td>어떤 특징이 신호를 싣는지 + 과적합 감별</td></tr>
+      <tr><td>피벗 조건</td><td>AUC</td><td>어느 쌍 &lt; 0.75</td><td>압력 단독 분리 실패 → 역할 재정의 + 2차 모달리티</td></tr>
+    </tbody>
+  </table>
+  <p class="note">두 정규분포 가정에서 AUC = Φ(d/√2)이므로 AUC≥0.9는 d≈1.81에 해당한다. 원안의 "d≥0.8 AND AUC≥0.9"는 부정합(느슨+빡셈 AND)이라 폐기하고, d는 단일특징 진단·AUC는 통합 게이트로 축을 분리했다.</p>
+
+  <div class="pg-footer"><span>Section 02 · Pressure Detection &amp; Phase A</span><span>02</span></div>
 </div>
 
 <!-- SECTION 03 -->
 <div class="page">
   <div class="section-tag">SECTION 03</div>
-  <div class="section-title">감지 카테고리 · 기술 구현 등급 분류</div>
-  <div class="section-subtitle">Detection Category — Technical Feasibility Classification</div>
+  <div class="section-title">개발 로드맵 및 완료 조건</div>
+  <div class="section-subtitle">Development Roadmap &amp; Exit Criteria</div>
 
-  <div class="grade-legend">
-    <div class="grade-legend-item"><span class="grade grade-A">A</span><span>즉시 구현 가능 — 학계·상용 검증 완료</span></div>
-    <div class="grade-legend-item"><span class="grade grade-B">B</span><span>학습 후 구현 — 베이스라인 필요</span></div>
-    <div class="grade-legend-item"><span class="grade grade-C">C</span><span>부품 교체·추가 필요</span></div>
+  <p>기술 리스크를 먼저 제거하는 순서로 단계화한다. 각 단계는 완료 조건(Exit Criteria)을 넘겨야 다음으로 진행한다. 지금 착수하는 것은 규제 적합성 사전질의와 Phase A뿐이며, C~F는 게이트 통과 후 전개한다.</p>
+
+  <div class="phase-strip">
+    <div class="phase-cell"><div class="phase-cell-tag">TRACK 0</div><div class="phase-cell-title">규제 적합성</div><div class="phase-cell-sub">Phase A와 병렬</div></div>
+    <div class="phase-cell"><div class="phase-cell-tag">PHASE A</div><div class="phase-cell-title">압력 검증</div><div class="phase-cell-sub">현재 단계</div></div>
+    <div class="phase-cell"><div class="phase-cell-tag">GATE</div><div class="phase-cell-title">진행 / 피벗</div><div class="phase-cell-sub">진행 / 피벗 결정</div></div>
   </div>
 
-  <table class="tight">
-    <thead><tr><th style="width:5%">#</th><th style="width:10%">카테고리</th><th style="width:25%">세부 항목</th><th style="width:7%">등급</th><th>핵심 근거 / 한계</th></tr></thead>
+  <table>
+    <thead><tr><th style="width:18%">단계</th><th style="width:34%">목표</th><th>완료 조건 (Exit Criteria)</th></tr></thead>
     <tbody>
-      <tr class="category-row"><td colspan="5">① 낙상 — Fall Detection</td></tr>
-      <tr><td>1</td><td>낙상</td><td>수직 변화 거리 검출</td><td><span class="grade grade-A">A</span></td><td>mmWave 다층 필터링 학계 검증 충분</td></tr>
-      <tr><td>2</td><td>낙상</td><td>다중 사용자 환경</td><td><span class="grade grade-A">A</span></td><td>단일 97.9% / 다인 86.5% (인용 기준)</td></tr>
-      <tr><td>3</td><td>낙상</td><td>사람·물체 구분 (인체 존재)</td><td><span class="grade grade-A">A</span></td><td>AMG8833 체온 픽셀 검출</td></tr>
-      <tr><td>4</td><td>낙상</td><td>사각지대 (가구 뒤·이불 속)</td><td><span class="grade grade-A">A</span></td><td>무움직임 카테고리로 우회 감지</td></tr>
-
-      <tr class="category-row"><td colspan="5">② 욕조 위급 — Bathtub Emergency</td></tr>
-      <tr><td>5</td><td>욕조</td><td>성인 욕조 낙상 (수직 변화)</td><td><span class="grade grade-B">B</span></td><td>mmWave + 욕조 캘리브레이션 필요</td></tr>
-      <tr><td>6</td><td>욕조</td><td>성인 호흡+움직임 동시 소실</td><td><span class="grade grade-B">B</span></td><td>LD2412 + 학습 후 가능</td></tr>
-      <tr><td>7</td><td>욕조</td><td>영유아 익사 감지 (압력센서 추가)</td><td><span class="grade grade-A">A</span></td><td>MS5803-14BA 수중 압력 + 4단계 직렬 필터 (압력 → mmWave → IR → 호흡). 분해능 <strong>0.2 mbar (OSR 4096, ≈2 mm 수심, TE Connectivity DA5803-14BA_005)</strong></td></tr>
-
-      <tr class="category-row"><td colspan="5">③ 호흡 이상 — Breathing Anomaly</td></tr>
-      <tr><td>8</td><td>호흡</td><td>호흡수 측정</td><td><span class="grade grade-A">A</span></td><td>FMCW mmWave MAE 0.8~1.01 BPM (인용 기준)</td></tr>
-      <tr><td>9</td><td>호흡</td><td>무호흡 검출</td><td><span class="grade grade-A">A</span></td><td>호흡 진폭 부재 시간 기반 (AASM 임상 10초/30초)</td></tr>
-      <tr><td>10</td><td>호흡</td><td>빈호흡·서호흡 (개인 베이스라인)</td><td><span class="grade grade-B">B</span></td><td>77GHz + ML 호흡 4종 94.75% (Sensors 2024)</td></tr>
-      <tr><td>11</td><td>호흡</td><td>체인-스토크스·쿠스마울 분류</td><td><span class="grade grade-C">C</span></td><td>24GHz 신호 품질 한계 / 60GHz 업그레이드 필요</td></tr>
-      <tr><td>12</td><td>호흡</td><td>다인·반려동물 환경 분리</td><td><span class="grade grade-B">B</span></td><td>Joint Sparsity 다인 94.14% (arXiv 2501.06755)</td></tr>
-
-      <tr class="category-row"><td colspan="5">④ 장시간 무움직임 — Prolonged Immobility</td></tr>
-      <tr><td>13</td><td>무움직임</td><td>시간대별 베이스라인 이탈</td><td><span class="grade grade-B">B</span></td><td>평일·주말 분리 학습 + ±K_σ·σ 통계 (28일 학습)</td></tr>
-
-      <tr class="category-row"><td colspan="5">⑤ 체온 이상 — Temperature Anomaly</td></tr>
-      <tr><td>14</td><td>체온</td><td>인체 존재 확인</td><td><span class="grade grade-A">A</span></td><td>AMG8833 본래 용도, 신뢰도 높음</td></tr>
-      <tr><td>15</td><td>체온</td><td>절대값 정확도 ±1°C (부품 교체)</td><td><span class="grade grade-A">A</span></td><td>MLX90641 교체 (192픽셀, ±1°C)</td></tr>
-      <tr><td>16</td><td>체온</td><td>진행성 변화 추적</td><td><span class="grade grade-B">B</span></td><td>환경 보정 학습 + 14일 베이스라인</td></tr>
-
-      <tr class="category-row"><td colspan="5">⑥ 활동 패턴 이탈 — Activity Pattern Deviation</td></tr>
-      <tr><td>17</td><td>패턴</td><td>종합 이탈 점수 S_total</td><td><span class="grade grade-B">B</span></td><td>5항목 가중 합산, 60일 학습, 계절성·요일성 반영</td></tr>
+      <tr><td>규제 적합성 (병렬)</td><td>의료기기 분류 리스크 제거</td><td>식약처 의료기기 해당여부 사전질의 1차 답변 확보</td></tr>
+      <tr><td>A. 압력 검증</td><td>구조화 데이터 수집 + 통계 분석 → 판정</td><td>충돌쌍에서 SNR≥10dB · AUC≥0.90 · 핵심특징 d≥1.5, 그리고 한계(Risk 02·11·12) 명문화</td></tr>
+      <tr><td>진행 / 피벗 게이트</td><td>진행 또는 피벗 결정</td><td>진행 = 분리 성공 / 피벗 = 실패 → 역할 재정의(입수·퇴수 + 비정상 패턴) + 2차 모달리티</td></tr>
+      <tr><td>B. 알고리즘 강건화</td><td>온디바이스 실시간 분류</td><td>미학습 욕조에서 재현 + 오탐률 목표 + 실시간 판정 지연 목표</td></tr>
+      <tr><td>C. Sub-GHz 링크</td><td>Wi-Fi → Sub-GHz 교체</td><td>욕실 벽 통과 PER &lt; 1% + 알림 지연 &lt; 1s + 배터리 목표</td></tr>
+      <tr><td>D. 허브 게이트웨이</td><td>로컬 우선 알림 + 수신/ACK/상태</td><td>인터넷이 끊겨도 로컬 경보 동작 + 패킷 신뢰성(ACK/Retry)</td></tr>
+      <tr><td>E. Cloud + 앱</td><td>원격 조회 + 푸시</td><td>외부 망에서 상태 조회 + 푸시 도달률 목표</td></tr>
+      <tr><td>F. PCB · 인증</td><td>양산 HW + 방수 신뢰성 + 인증</td><td>장기 결로·방수 신뢰성 통과 + 인증 통과</td></tr>
     </tbody>
   </table>
 
-  <div class="summary-row">
-    <div class="summary-box"><div class="summary-box-label">A · 8개</div><div class="summary-box-num">8</div><div class="summary-box-text">즉시 구현 가능 — 학계 검증 완료, 현재 BOM 동작</div></div>
-    <div class="summary-box"><div class="summary-box-label">B · 7개</div><div class="summary-box-num">7</div><div class="summary-box-text">학습 후 구현 — 베이스라인 14~60일 형성 필요</div></div>
-    <div class="summary-box"><div class="summary-box-label">C · 2개</div><div class="summary-box-num">2</div><div class="summary-box-text">부품 교체·추가 필요 — 60GHz 업그레이드 등</div></div>
+  <div class="callout">
+    <div class="callout-label">PIVOT PLAN</div>
+    어느 충돌쌍이라도 AUC가 0.75 미만이면 압력 단독 분리는 실패로 본다. 이 경우 센서 역할을 "욕조 사용 상태 검출(입수·퇴수) + 비정상 출렁임 패턴"으로 재정의하고, 1차 트리거를 방수 마이크 또는 ToF로 재구성하는 안으로 피벗한다.
   </div>
 
-  <div class="pg-footer"><span>Section 03 · Feasibility Classification</span><span>03</span></div>
+  <div class="pg-footer"><span>Section 03 · Roadmap &amp; Exit Criteria</span><span>03</span></div>
 </div>
 
 <!-- SECTION 04 -->
 <div class="page">
   <div class="section-tag">SECTION 04</div>
-  <div class="section-title">부품 명세 및 BOM</div>
-  <div class="section-subtitle">Component Specification &amp; Bill of Materials</div>
+  <div class="section-title">상용 V1 시스템 아키텍처</div>
+  <div class="section-subtitle">Commercial V1 System Architecture</div>
 
-  <h3>60GHz mmWave 레이더</h3>
+  <p>최종 제품은 방수 센서 모듈과 메인 허브로 구성된다. 고객이 외출·해외에서도 조회할 수 있도록 허브는 클라우드에 연결되고 앱은 클라우드를 통해 조회한다. 단, 생명 알림은 인터넷에 의존시키지 않는다.</p>
+
+  <div class="algo"><span class="c"># 통신 경로</span>
+방수 센서 모듈(ESP32 + MS5803 + 배터리 + Sub-GHz)
+   │  Sub-GHz
+   ▼
+메인 허브(게이트웨이) ── 로컬 우선 경보: 사이렌 · LED · LAN 푸시
+   │  인터넷(Wi-Fi)
+   ▼
+Cloud ──▶ 스마트폰 앱(원격 조회 · 이력)</div>
+
+  <div class="callout">
+    <div class="callout-label">LOCAL-FIRST ALERT (RISK 13)</div>
+    응급 경보를 클라우드 경로에만 의존하면 인터넷 장애 시 알림이 실패해 생명 위험으로 직결된다. 따라서 응급 경보는 허브 자체 경보 + 동일 LAN 푸시가 1차이고, 클라우드·원격 앱은 보조(원격 조회)다. 센서↔허브 Sub-GHz 링크 신뢰성(ACK/Retry)이 안전의 핵심이다.
+  </div>
+
+  <h3>메인 허브 역할 및 개발자 모드</h3>
+  <p>허브는 게이트웨이로서 Sub-GHz 수신, 데이터 무결성(CRC), 패킷 재전송(ACK/Retry), 센서·배터리 상태 관리, 클라우드·앱 연동, OTA를 담당한다. 동시에 개발용으로 PC 실시간 확인·CSV·디버깅을 제공하는 개발자 모드를 둔다. 출력 대상(클라우드·로컬 대시보드·CSV·시리얼)을 싱크 인터페이스로 추상화하면 싱크 추가가 재설계 없이 가능하다.</p>
+
+  <div class="pg-footer"><span>Section 04 · V1 Architecture</span><span>04</span></div>
+</div>
+
+<!-- SECTION 04 (cont) -->
+<div class="page">
+  <div class="section-tag">SECTION 04 · CONTINUED</div>
+  <div class="section-title">통신 스택 — Sub-GHz 및 Cloud</div>
+  <div class="section-subtitle">Communication Stack — Sub-GHz &amp; Cloud</div>
+
+  <h3>Sub-GHz 기술 비교</h3>
   <table>
-    <thead><tr><th style="width:18%">항목</th><th>MR60BHA2 (호흡·심박)</th><th>MR60FDA2 (낙상)</th></tr></thead>
+    <thead><tr><th style="width:18%">기술</th><th>특성</th><th style="width:18%">적합도</th></tr></thead>
     <tbody>
-      <tr><td>주파수</td><td>60GHz FMCW</td><td>60GHz FMCW</td></tr>
-      <tr><td>측정 거리</td><td>호흡·심박 0.4~1.5m / 존재 6m</td><td>낙상 검출 거실 범위</td></tr>
-      <tr><td>측정 영역</td><td>수평 80° · 기울기 80°</td><td>광각 시야</td></tr>
-      <tr><td>출력 방식</td><td>UART 결과값 (호흡률·심박수)</td><td>UART 낙상 이벤트</td></tr>
-      <tr><td>펌웨어</td><td>ESP32-C6 + ESPHome 선탑재</td><td>ESPHome 선탑재</td></tr>
-      <tr><td>용도</td><td>영유아 욕조 2차 검증 · 노인 호흡</td><td>노인 낙상 메인</td></tr>
+      <tr><td>433MHz</td><td>통달 김 / 대역 혼잡, 한국 ISM 부적합</td><td>부적합</td></tr>
+      <tr><td>920MHz (한국 ISM)</td><td>한국 합법, 벽 투과 양호</td><td>기본 채택</td></tr>
+      <tr><td>LoRa</td><td>장거리·강건 / 지연·듀티사이클로 안전알림 불리</td><td>벽 투과 마진용</td></tr>
+      <tr><td>(G)FSK</td><td>저지연·단순 / 통달 짧음</td><td>단거리 단일가정 적합</td></tr>
+      <tr><td>BLE 2.4GHz</td><td>물·벽 감쇠 큼</td><td>부적합</td></tr>
     </tbody>
   </table>
-  <p class="note">레이더 펌웨어는 커스터마이즈 불가, ESPHome YAML 설정만 수정 가능 — 학부 구현 난이도 낮음. 단 raw 신호 미접근으로 융합 모델 입력 품질 천장 존재 → 장기적으로 개방형 보드 검토.</p>
+  <p class="note">결론: 한국 920MHz. LoRa·FSK 겸용 칩(SX126x)으로 변조 결정을 Phase C로 미룬다(옵션 유지).</p>
 
-  <h3>IR Thermal Array</h3>
+  <h3>Cloud 아키텍처 비교</h3>
   <table>
-    <thead><tr><th style="width:18%">항목</th><th>MLX90641 (메인 허브 권장)</th><th>MLX90640 (워치독 정밀)</th></tr></thead>
+    <thead><tr><th style="width:26%">후보</th><th>성격 / 적합도</th></tr></thead>
     <tbody>
-      <tr><td>해상도</td><td>16×12 (192픽셀)</td><td>32×24 (768픽셀)</td></tr>
-      <tr><td>정확도</td><td>±1°C (인용 기준)</td><td>±1°C (인용 기준)</td></tr>
-      <tr><td>시야각</td><td>110°</td><td>110° × 75°</td></tr>
-      <tr><td>1m 거리 1픽셀</td><td>6.6 × 6.6cm</td><td>3.3 × 3.3cm</td></tr>
-      <tr><td>용도</td><td>인체 존재·체온 ±1°C</td><td>욕조 영유아 머리 위치 정밀</td></tr>
+      <tr><td>MQTT</td><td>경량 pub/sub — IoT 텔레메트리 전송 표준</td></tr>
+      <tr><td>HTTPS REST / WebSocket</td><td>단순 무상태 / 실시간 양방향(라이브 대시보드)</td></tr>
+      <tr><td>Firebase · Supabase</td><td>관리형 BaaS(DB+Auth+Push) — 1인 MVP 최적</td></tr>
+      <tr><td>AWS IoT Core · Azure IoT Hub</td><td>풀 IoT 플랫폼(OTA·디바이스섀도) — 규모화 후</td></tr>
     </tbody>
   </table>
+  <p class="note">결론: MVP는 Firebase/Supabase + 디바이스→클라우드 MQTT. 규모·OTA 확대 시 AWS IoT Core로 이전. 생명 알림은 로컬 우선 원칙을 따른다.</p>
 
-  <h3>추가 핵심 부품 — 욕조 영유아 안전</h3>
-  <table>
-    <thead><tr><th>부품</th><th>용도</th><th>필요성</th></tr></thead>
-    <tbody>
-      <tr><td>MS5803-14BA 수중 압력센서</td><td>욕조 수면 변화 직접 검출 → 영유아 익사 1차 트리거</td><td>분해능 <strong>0.2 mbar (OSR 4096, ≈2 mm 수심, 인용 기준)</strong>. mmWave가 못 잡는 수면 변화를 물리적으로 직접 측정 — 익사 검출의 핵심. 실측 검증은 Phase A에서 수행 (RISKS.md Risk 02).</td></tr>
-      <tr><td>방수 MEMS 마이크 (IP67)</td><td>울음·물장구·물소리 → 보조 트리거</td><td>오디오로 "활동 중" 판정 → 오탐 감소</td></tr>
-      <tr><td>IP67 컨포멀 코팅 + 통기구 분리</td><td>욕실 결로 장기 내구성</td><td>IP65 단독으로는 장기 결로에 취약</td></tr>
-    </tbody>
-  </table>
-
-  <div class="pg-footer"><span>Section 04 · BOM</span><span>04</span></div>
+  <div class="pg-footer"><span>Section 04 · V1 Architecture</span><span>04</span></div>
 </div>
 
 <!-- SECTION 05 -->
 <div class="page">
   <div class="section-tag">SECTION 05</div>
-  <div class="section-title">카테고리별 판정 알고리즘</div>
-  <div class="section-subtitle">Per-Category Detection Algorithm</div>
+  <div class="section-title">부품 명세 및 하드웨어</div>
+  <div class="section-subtitle">Component Specification &amp; Hardware</div>
 
-  <p>모든 카테고리는 [입력 신호 → 신호 처리 → 판정 조건]의 공통 골격을 따른다. 공통 처리 기법은 이동평균(평활화), 1차 미분(변화율 검출), 임계값 + 지속시간(오탐 억제)이며, 학습 기반 항목은 사용자별 베이스라인 μ ± Kσ 형성 후 개인화 판정으로 전환한다.</p>
+  <h3>Phase A 핵심 하드웨어</h3>
+  <table>
+    <thead><tr><th style="width:22%">부품</th><th>사양 / 역할</th></tr></thead>
+    <tbody>
+      <tr><td>MS5803-14BA 수중 압력센서</td><td>욕조 수면 변화 직접 검출. 분해능 0.2 mbar (OSR 4096, ≈2 mm 수심, TE Connectivity DA5803-14BA_005 인용 기준). I2C 주소 0x76</td></tr>
+      <tr><td>ESP32-WROOM-32 DevKitC</td><td>측정·신호처리·로깅. Phase A는 Wi-Fi/TCP/LittleFS로 데이터 수집</td></tr>
+      <tr><td>전원</td><td>Phase A는 KC 인증 USB 보조배터리. 양산(Phase F)에서 내장 배터리·충전 회로로 교체</td></tr>
+      <tr><td>방수 하우징</td><td>적층 내부 배치, 외부 케이블 없는 완전 밀폐. 센서 캡만 노출. FDM 3D 프린팅(PETG/ASA)</td></tr>
+    </tbody>
+  </table>
 
-  <div class="algo-row">
-    <div class="algo-col">
-      <h3>① 영유아 욕조 — 4단계 직렬 필터</h3>
-      <div class="algo"><span class="comment"># 1차: 수중 압력 급변</span>
-p_s = moving_average(pressure, W_p)
-dP  = p_s[t] - p_s[t-1]
+  <h3>센서 배선 원칙 (4선 고정)</h3>
+  <table>
+    <thead><tr><th style="width:22%">핀</th><th>연결</th></tr></thead>
+    <tbody>
+      <tr><td>GND / 3.3V</td><td>ESP32 GND / 3V3. 디커플링 100nF + 10µF(극성, +가 VDD)</td></tr>
+      <tr><td>SDA / SCL</td><td>GPIO21 / GPIO22</td></tr>
+      <tr><td>SDO / AO·CS / PS</td><td>미배선(플로팅). 보드 풀저항이 0x76·I2C 유지 — 전압 인가 금지</td></tr>
+    </tbody>
+  </table>
 
-if dP &gt; &Delta;P_inf and hold &ge; t_p:
-  <span class="comment"># 2차: 60GHz 욕조 인체</span>
-  if mmwave.presence(zone=bath):
-    <span class="comment"># 3차: IR 머리 잠김 판정</span>
-    if ir.head_below_waterline():
-      <span class="comment"># 4차: 호흡 부재 t초</span>
-      if mmwave.breath_absent(t_b_inf):
-        alert("위급")</div>
-      <p class="note">압력이 1차 트리거인 근거: 60GHz는 물에 흡수되어 잠긴 순간 신호가 급감하나, 압력 센서는 수중에서도 신호를 유지한다.</p>
-    </div>
-    <div class="algo-col">
-      <h3>② 낙상 — 5단계 필터</h3>
-      <div class="algo"><span class="comment"># 수직 변화 속도 → 위치 → 체온</span>
-<span class="comment"># → 미세움직임 → PIR 직전 활동</span>
-v_drop = d(height)/dt
+  <h3>측정 품질 업그레이드 (Phase A 본체 전 적용)</h3>
+  <ul>
+    <li>샘플링 2Hz → 10Hz(압력) / 1Hz(온도). OSR 4096 유지(변환 약 9ms, 10Hz 여유).</li>
+    <li>정밀 타임스탬프 — 시간 패턴 특징(F1~F6)의 전제.</li>
+    <li>CSV에 시나리오 ID·정답 라벨·통제변수(수심·수온·욕조형·변위 방식) 메타 컬럼 추가.</li>
+  </ul>
 
-if v_drop &gt; V_fall:
-  if ir.is_human(T_min, T_max):
-    if mmwave.micro_motion_low():
-      alert("위급")
+  <p class="note">단일 센서 — 비가역 처리 금지. 모든 하드웨어 결정은 가역적으로 유지한다(RISKS.md 가역성 원칙).</p>
 
-<span class="comment"># 자유낙하 물건은 체온으로 제거</span></div>
-    </div>
-  </div>
-
-  <div class="algo-row">
-    <div class="algo-col">
-      <h3>③ 호흡 — 부재·이상</h3>
-      <div class="algo"><span class="comment"># 무호흡: 진폭 부재 시간 기반</span>
-if breath_amp &lt; A_min for t_b_adult:
-  alert("위급")
-
-<span class="comment"># 빈/서호흡: 개인 베이스라인 대비</span>
-if |rate - μ_b| &gt; K_σ · σ_b:
-  alert("주의")</div>
-    </div>
-    <div class="algo-col">
-      <h3>④ 무움직임 / ⑤ 체온</h3>
-      <div class="algo"><span class="comment"># 무움직임: 평일·주말 분리 기준</span>
-if still_t &gt; μ_immo + K_σ · σ_immo:
-  alert("주의")
-
-<span class="comment"># 체온: 상대 변화율 추적</span>
-if &Delta;T over W_temp &lt; -&Delta;T_p:
-  alert("위급")  <span class="comment"># 저체온 진행</span></div>
-    </div>
-  </div>
-
-  <h3>⑥ 패턴 — 통합 응급도</h3>
-  <div class="algo"><span class="comment"># 5항목 가중 합산</span>
-S = &Sigma; W_i · deviation_i
-
-if   S &ge; &theta;_2: level = "위급"
-elif S &ge; &theta;_1: level = "주의"
-else:           level = "일반"</div>
-
-  <p><strong>학습 기간 차등화 + 단계화.</strong> 체온 14일 / 호흡 21일 / 무움직임 28일 (평일·주말 분리) / 패턴·호흡 분류 60일·56일. 공통 단계화: P1 고정 임계값·데이터 수집 → P2 누적 → P3 학습값 블렌딩 → P4 완전 개인화 (μ ± Kσ).</p>
-
-  <div class="callout">
-    <div class="callout-label">EDGE RESILIENCE — STM 롤링 버퍼</div>
-    각 디바이스는 ESP32 RAM에 길이 W_stm의 단기 기억(STM) 롤링 버퍼를 유지한다. 통신이 끊겨도 STM 급변(±K_burst%) 검출 → 로컬 베이스라인 비교 → 1차 판정을 디바이스 단독으로 수행한다. 클라우드·게이트웨이 의존 없이 위급 상황을 놓치지 않는 엣지 자율 판정 구조다.
-  </div>
-
-  <div class="pg-footer"><span>Section 05 · Detection Algorithm</span><span>05</span></div>
+  <div class="pg-footer"><span>Section 05 · Hardware &amp; BOM</span><span>05</span></div>
 </div>
 
 <!-- SECTION 06 -->
 <div class="page">
   <div class="section-tag">SECTION 06</div>
-  <div class="section-title">데이터 수집 전략 및 학습 구조</div>
-  <div class="section-subtitle">Data Collection Strategy &amp; Learning Architecture</div>
+  <div class="section-title">장기 비전 — 멀티센서 융합 <span class="tag-vision">VISION</span></div>
+  <div class="section-subtitle">Long-Term Vision — Multi-Sensor Fusion (Phase A 통과 후)</div>
 
-  <p>학습 기반 카테고리(호흡·무움직임·체온·패턴)에 그대로 적용 가능한 공개·상용 데이터셋은 존재하지 않는다. 공개 의료 데이터셋은 코 캐뉼라·흉부 벨트 기반이라 mmWave 호흡 진동 신호와 물리적으로 다르고, 단일 센서 위주이며, 한국 가정 환경 데이터가 부재하다. 따라서 단계적 자체 데이터 수집과 도메인 적응이 필수다.</p>
+  <p>Phase A 압력 검증이 통과되면, 한 가구 안에서 입욕 안전을 넘어 낙상·호흡·체온·활동 패턴까지 통합하는 융합 안전 시스템으로 확장한다. 본 섹션은 그 장기 비전이며, 현재 우선순위가 아니다. 관련 가설·한계는 RISKS.md에 VISION 태그로 별도 표기한다.</p>
 
-  <h3>3단계 학습 전략</h3>
-
-  <div class="phase-strip">
-    <div class="phase-cell"><div class="phase-cell-tag">PHASE 1</div><div class="phase-cell-title">사전학습</div><div class="phase-cell-sub">~6개월 · 공개 데이터셋</div></div>
-    <div class="phase-cell"><div class="phase-cell-tag">PHASE 2</div><div class="phase-cell-title">자체 Fine-tuning</div><div class="phase-cell-sub">6~18개월 · 베타 20~50가구</div></div>
-    <div class="phase-cell"><div class="phase-cell-tag">PHASE 3</div><div class="phase-cell-title">연합학습</div><div class="phase-cell-sub">18개월+ · raw 미전송</div></div>
-  </div>
-
+  <h3>융합 센서 구성</h3>
   <table>
-    <thead><tr><th>Phase</th><th>데이터셋 / 방법</th><th>달성 자산</th></tr></thead>
+    <thead><tr><th style="width:30%">센서</th><th>역할</th></tr></thead>
     <tbody>
-      <tr><td>Phase 1</td><td>SHHS · MIT-BIH PSG · MIMIC-IV (노인) / PICS · Robin Sequence · Child mmWave · Premature Radar (영유아) / 욕실 환경 시뮬레이션</td><td>융합 판정 프로토타입</td></tr>
-      <tr><td>Phase 2</td><td>베타 가구 fine-tuning + 시뮬레이션 5종 (CPR 마네킹+펌프 / 욕조+마네킹 / 성인 자발 호흡정지 / 합성 신호 / 정상 입욕 One-Class)</td><td>개인화 엔진 · 통합 판정 1차</td></tr>
-      <tr><td>Phase 3</td><td>연합학습 — 디바이스 수집 + 앱 학습 + 서버 집계, raw 미전송 가중치만 업데이트</td><td>한국 가정 환경 데이터셋</td></tr>
+      <tr><td>60GHz mmWave 레이더</td><td>호흡·심박·재실 / 낙상</td></tr>
+      <tr><td>수중 압력 (MS5803-14BA)</td><td>욕조 수면 변화 — 익수 1차 신호</td></tr>
+      <tr><td>IR Thermal (MLX90640/41)</td><td>인체 존재·머리 위치·체온</td></tr>
+      <tr><td>PIR</td><td>움직임 보조 트리거</td></tr>
     </tbody>
   </table>
 
-  <p class="note">Robin Sequence NAM 차용으로 영유아 욕조 위급 15초 전 사전 예측 (AuROC 0.80, 인용 기준) 적용. ESP32 직접 학습 불가 → 디바이스 수집 + 앱/게이트웨이 학습 + 서버 가중치 집계 구조.</p>
+  <h3>영유아 욕조 4단계 직렬 필터</h3>
+  <div class="algo"><span class="c"># 압력이 1차 트리거인 근거: 60GHz는 물에 흡수되어 잠긴 순간 급감,</span>
+<span class="c"># 압력은 수중에서도 신호 유지</span>
+1차 수중 압력 급변 → 2차 mmWave 인체 확인
+   → 3차 IR 머리 잠김 → 4차 호흡 부재 t초 → 위급</div>
+  <p class="note">60GHz는 욕조 익사를 단독 감지하는 메인 센서가 아니라, 압력이 포착한 사건을 "사람인가 / 호흡이 없는가"로 교차검증하는 역할이다.</p>
 
-  <h3>수집 데이터 3종</h3>
-  <table>
-    <thead><tr><th>데이터</th><th>측정 항목 / 형태</th><th>수집 · 보관</th></tr></thead>
-    <tbody>
-      <tr><td>① 원시 센서 신호</td><td>MR60: 호흡·심박·거리·재실 / MLX90640: 열화상 픽셀 / MS5803: 수압 / PIR: 이벤트</td><td>UART·I2C 수집 → ESP32 1차 저장 → 익명화 후 통계 요약</td></tr>
-      <tr><td>② 사용자별 베이스라인</td><td>시간대별 호흡·체온·무움직임 평균/표준편차, 활동·수면 패턴</td><td>디바이스 로컬 보관 · 클라우드 미전송 (연합학습)</td></tr>
-      <tr><td>③ 라벨링 이상 이벤트</td><td>낙상·욕조·무호흡 정탐/오탐, 패턴 이탈 + 컨텍스트</td><td>앱 1탭 응답 (월 5~30건 추정) → 분류 모델 학습</td></tr>
-    </tbody>
-  </table>
+  <h3>감지 카테고리 및 데이터 전략</h3>
+  <p>6개 카테고리(낙상·욕조·호흡·무움직임·체온·패턴)로 확장하고, 통합 응급도 점수로 일반/주의/위급을 분기한다. 학습은 공개 데이터셋 사전학습 → 베타 fine-tuning → 연합학습(raw 미전송)의 3단계로 진행하며, 영유아 학습 목표는 "익사 분류"가 아닌 "정상 입욕 One-Class 이상 감지"로 정의한다. 모든 정확도 수치는 인용 기준이며 베타 실측 검증 전 가설이다.</p>
 
-  <div class="callout">
-    <div class="callout-label">개인정보 보호 및 의료기기 회피</div>
-    모든 raw 데이터는 클라우드에 전송하지 않고 모델 가중치만 업데이트하는 연합학습 구조를 전제로 한다. 알림 표현은 진단이 아닌 "패턴 이탈 감지, 의료 상담 권고"로 일관하여 의료기기 경계를 유지한다.
-  </div>
-
-  <div class="pg-footer"><span>Section 06 · Data Strategy</span><span>06</span></div>
+  <div class="pg-footer"><span>Section 06 · Long-Term Vision</span><span>06</span></div>
 </div>
 
 <!-- SECTION 07 -->
 <div class="page">
   <div class="section-tag">SECTION 07</div>
-  <div class="section-title">최종 기술 목표 — 4가지 기술 자산</div>
-  <div class="section-subtitle">Target Technologies — Four Strategic Assets</div>
+  <div class="section-title">리스크 요약</div>
+  <div class="section-subtitle">Risk Summary</div>
 
-  <p>3종 데이터를 단계적으로 축적하여 다음 4가지 기술 자산을 구축한다. 각 자산은 확인된 범위에서 시장에 동일 사례가 없거나 한정적이며, 진입 장벽 및 장기 경쟁 우위의 근거가 된다.</p>
+  <p>전체 가설·한계·검증 계획은 RISKS.md에 사전 공개한다. 본 섹션은 의사결정에 직접 영향을 주는 핵심 리스크만 요약한다.</p>
 
   <table>
-    <thead><tr><th style="width:5%">#</th><th style="width:25%">기술 자산</th><th style="width:30%">필요 데이터 · 달성 시점</th><th>시장 차별점</th></tr></thead>
+    <thead><tr><th style="width:8%">#</th><th style="width:30%">리스크</th><th>핵심 / 대응</th></tr></thead>
     <tbody>
-      <tr><td>①</td><td>mmWave + IR Thermal + 수중압력 융합 판정 모델 (영유아 4단계 직렬 필터가 구체적 형태)</td><td>원시 센서 + 정탐/오탐 라벨 / Phase 1 프로토타입 → Phase 2 검증</td><td>학계는 단일 센서, 상용은 카메라 의존. 카메라 없이 3종 융합 95%+ 검증 자체가 IP (가설)</td></tr>
-      <tr><td>②</td><td>사용자별 개인화 이상 감지 엔진</td><td>사용자 베이스라인 / Phase 2 (학습 완료 시점부터)</td><td>일반 의료기기는 인구 평균 임계값. 만성질환 조기 감지는 개인 베이스라인이 유의미하게 우월</td></tr>
-      <tr><td>③</td><td>6개 카테고리 통합 판정 + 응급도 점수</td><td>3종 데이터 모두 / Phase 2 후반 → Phase 3 정밀화</td><td>단일 신호는 오탐 다수. 통합 판정으로 위급 SNR 상승. 통합 모델 시장 부재 (추가 조사 필요)</td></tr>
-      <tr><td>④</td><td>한국 가정 환경 비접촉 데이터셋</td><td>익명화 누적 (연합학습) / Phase 3 이후 지속</td><td>한국 가정 mmWave+IR 데이터셋 부재. 후발 추격 어려운 해자. 정부·학계 협력 진입권</td></tr>
+      <tr><td>02</td><td>압력 "익수 분리" 성립 여부 (전체 진행/피벗 게이트)</td><td>최악 케이스(머리만 잠김)는 부피 변화 거의 0 → 신호 미약 가능. 확정 기준 SNR≥10dB·AUC≥0.90·d≥1.5로 판정. "압력으로 익사 감지" 단정 금지, "변위 패턴 분리"로 한정</td></tr>
+      <tr><td>03</td><td>의료기기 분류</td><td>규제 적합성 — 표현·기능 제약을 결정. 식약처 사전질의 병렬 진행. 결과 전까지 "비해당" 확정 표현 금지</td></tr>
+      <tr><td>11 · 12</td><td>외적 타당성 · 인형 검증 천장</td><td>단일 욕조·단일 변위·인형은 실제 익사와 다름. 결과를 "이 조건에서의 패턴 분리"로 한정, 단정 반박 방지</td></tr>
+      <tr><td>13</td><td>생명 알림 통신 경로</td><td>클라우드 단독 의존 금지. 로컬 우선 경보가 1차, 인터넷 차단 상태 동작을 Phase D에서 검증</td></tr>
     </tbody>
   </table>
 
-  <h3>단계별 데이터–기술 매핑</h3>
-  <table>
-    <thead><tr><th>Phase</th><th>보유 데이터</th><th>달성 자산</th><th>한계</th></tr></thead>
-    <tbody>
-      <tr><td>P1 (~6개월)</td><td>본인·가족 (1~2명) + 공개 의료 데이터셋</td><td>자산 ① 프로토타입</td><td>②③④ 미달성, 사용자 다양성 부족</td></tr>
-      <tr><td>P2 (6~18개월)</td><td>베타 20~50가구 + 라벨 이벤트</td><td>자산 ②③ 1차, ① 정밀화</td><td>④ 일부만, 계절성·다인 다양성 미흡</td></tr>
-      <tr><td>P3 (18개월+)</td><td>1,000~10,000가구 (연합학습)</td><td>자산 ④ 본격, ②③ 정밀화</td><td>의료기기 인증·정부 협력 점진 추진</td></tr>
-    </tbody>
-  </table>
-
-  <h3>데이터 거버넌스 및 한계</h3>
   <div class="callout">
-    <div class="callout-label">SECTION SUMMARY</div>
-    확인된 범위 내 시장에 "한국 가정 환경에서 mmWave + IR Thermal + 수중압력으로 6개 위급 카테고리를 통합 판정하는 알고리즘과 그 학습 데이터"는 존재하지 않는다. 본 디바이스는 융합 판정 모델 · 개인화 엔진 · 통합 판정 · 한국 가정 데이터셋의 4가지 기술 자산을 단계적으로 구축하는 것을 최종 목표로 한다.
+    <div class="callout-label">SUMMARY</div>
+    Phase A는 의도적 기본형이며, 그 목적은 "압력 시간패턴이 정상 입욕과 익수 변위를 분리하는가"라는 단일 질문에 데이터로 답하는 것이다. 이 질문의 진행/피벗 판정 전에는 통신·허브·클라우드·앱·양산을 착수하지 않는다.
   </div>
 
-  <ul>
-    <li><strong>개인정보 재식별 위험</strong> — 호흡·활동 패턴은 개인 고유성이 높아 익명화해도 재식별 가능성 존재. 거버넌스 재설계 상시 필요.</li>
-    <li><strong>라벨링 비용·알림 피로</strong> — 정탐/오탐 라벨은 사용자 응답 필수. 알림 피로 시 라벨 품질 급락 → UX 단계부터 알림 우선순위 관리.</li>
-    <li><strong>의료기기 경계</strong> — 만성질환·신생아 응용은 의료기기 영역. 확장 시 식약처 사전 확인 필수.</li>
-    <li><strong>데이터 독점성 한계</strong> — 동일 부품으로 동일 데이터 수집 가능. 진짜 해자는 알고리즘 IP + 사용자 락인 + 디자인 IP의 3중 방어.</li>
-  </ul>
-
-  <div class="pg-footer"><span>Section 07 · Target Technologies</span><span>07</span></div>
+  <div class="pg-footer"><span>Section 07 · Risk Summary</span><span>07</span></div>
 </div>
 
 </body>

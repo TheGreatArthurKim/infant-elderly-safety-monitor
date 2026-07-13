@@ -1,7 +1,7 @@
 # 압력 센서 작동 원리 — MS5803-14BA
 
 > 이 문서는 Phase A의 물리적 전제를 정리한다.
-> 데이터시트 수치는 **인용 기준**(TE Connectivity MS5803-14BA / DA5803-14BA_005)이며, 노이즈 σ 등 실측이 필요한 값은 별도 표기한다.
+> 데이터시트 수치는 **인용 기준**([TE MS5803-14BA 데이터시트](https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=MS5803-14BA&DocType=Data+Sheet&DocLang=English&DocFormat=pdf&PartCntxt=CAT-BLPS0013))이며, 노이즈 σ 등 실측이 필요한 값은 별도 표기한다.
 
 ## 요약
 

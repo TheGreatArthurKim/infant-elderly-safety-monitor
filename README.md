@@ -35,31 +35,24 @@
 
 | 유형 | 선행 | 본 시스템과의 차이 |
 |---|---|---|
-| 학술 | Kharrat et al. (2012) — 착용형 압력센서와 신경망을 이용하여 near-drowning과 정상 수영을 분류 | 착용형·수영장 대상. 욕조 고정 압력센서 기반 정상 입욕/침수 구분은 다루지 않음 |
-| 학술 | Murao et al. — 욕조 바닥 수압센서를 이용한 사용자 식별 | 사용자 식별·점유 판단이 목적이며 정상 입욕/침수 분류는 아님 |
-| 특허 | EP1918191A1 — 수압·호흡·자세 등을 이용한 욕조 익사 위험 감지 | 다중 센서 기반. 바닥 압력 변화 패턴 단독 분석과 다름 |
-| 특허 | US20150107015A1 — 영유아 욕조 익사 감지 및 자동 배수 | 모션 기반·영유아 대상. 압력 시간 패턴 방식이 아님 |
-| 상용 | Milesight VS373, Safety Turtle | 낙상 감지 또는 웨어러블 방식. 욕조 바닥 압력 기반 비접촉 방식과 다름 |
+| 학술 | **Kharrat et al. (2012)** — 착용형 압력센서와 신경망을 이용하여 near-drowning과 정상 수영을 분류 | 착용형·수영장 대상. 욕조 고정 압력센서 기반 정상 입욕/침수 구분은 다루지 않음 |
+| 학술 | **Murao et al.** — 욕조 바닥 수압센서를 이용한 사용자 식별 | 사용자 식별·점유 판단이 목적이며 정상 입욕/침수 분류는 아님 |
+| 특허 | **EP1918191A1** — 수압·호흡·자세 등을 이용한 욕조 익사 위험 감지 | 다중 센서 기반. 바닥 압력 변화 패턴 단독 분석과 다름 |
+| 특허 | **US20150107015A1** — 영유아 욕조 익사 감지 및 자동 배수 | 모션 기반·영유아 대상. 압력 시간 패턴 방식이 아님 |
+| 상용 | **Milesight VS373** | 낙상 감지 또는 웨어러블 방식. 욕조 바닥 압력 기반 비접촉 방식과 다름 |
 
 ### References
 
 - **Kharrat et al. (2012)**  
   https://doi.org/10.1145/2398936.2398994
-
 - **Murao et al.**  
-  https://www.researchgate.net/publication/330371602_User_identification_method_in_a_bathtub_with_a_water_pressure_sensor
-
+https://www.researchgate.net/publication/330371602_User_identification_method_in_a_bathtub_with_a_water_pressure_sensor
 - **EP1918191A1**  
   https://patents.google.com/patent/EP1918191A1
-
 - **US20150107015A1**  
   https://patents.google.com/patent/US20150107015A1
-
 - **Milesight VS373**  
   https://www.milesight.com/iot/product/lorawan-sensor/vs373
-
-- **Safety Turtle**  
-  https://www.safetyturtle.com
 
 **차별점:** 하드웨어(욕조 고정 비접촉 수압 센싱)는 신규성이 아니다 — Murao 등 선행이 있다. 방어 가능한 고유 지점은 **정상 입욕(복귀형)과 침수(지속형)를 바닥 압력 dP의 시간 패턴으로 구분하는 판별 과제·방법**이다. 대비되는 성격은 유효하다: **① 낙상이 아닌 침수, ② 움직임 유무가 아닌 시간 패턴, ③ 착용형이 아닌 욕조 고정.** dP 시간패턴 판별과 직접 일치하는 선행은 확인 범위 내 미발견이나, "미발견 = 없음"이 아니며 정식 선행기술 조사가 별도로 필요하다.
 

@@ -43,16 +43,15 @@
 
 ### References
 
-**Kharrat et al. (2012)** — ACM Digital Library<br>
-https://doi.org/10.1145/2398936.2398994<br><br>
-**Murao et al.** — User identification method in a bathtub with a water pressure sensor<br>
-https://www.researchgate.net/publication/330371602_User_identification_method_in_a_bathtub_with_a_water_pressure_sensor<br><br>
-**EP1918191A1**<br>
-https://patents.google.com/patent/EP1918191A1<br><br>
-**US20150107015A1**<br>
-https://patents.google.com/patent/US20150107015A1<br><br>
-**Milesight VS373**<br>
-https://www.milesight.com/iot/product/lorawan-sensor/vs373
+**Kharrat et al. (2012)** — [ACM Digital Library](https://doi.org/10.1145/2398936.2398994)
+
+**Murao et al.** — [ResearchGate](https://www.researchgate.net/publication/330371602_User_identification_method_in_a_bathtub_with_a_water_pressure_sensor)
+
+**EP1918191A1** — [Google Patents](https://patents.google.com/patent/EP1918191A1)
+
+**US20150107015A1** — [Google Patents](https://patents.google.com/patent/US20150107015A1)
+
+**Milesight VS373** — [Official Website](https://www.milesight.com/iot/product/lorawan-sensor/vs373)
 
 
 **차별점:** 하드웨어(욕조 고정 비접촉 수압 센싱)는 신규성이 아니다 — Murao 등 선행이 있다. 방어 가능한 고유 지점은 **정상 입욕(복귀형)과 침수(지속형)를 바닥 압력 dP의 시간 패턴으로 구분하는 판별 과제·방법**이다. 대비되는 성격은 유효하다: **① 낙상이 아닌 침수, ② 움직임 유무가 아닌 시간 패턴, ③ 착용형이 아닌 욕조 고정.** dP 시간패턴 판별과 직접 일치하는 선행은 확인 범위 내 미발견이나, "미발견 = 없음"이 아니며 정식 선행기술 조사가 별도로 필요하다.

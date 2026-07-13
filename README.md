@@ -45,16 +45,12 @@
 
 **Kharrat et al. (2012)** — ACM Digital Library<br>
 https://doi.org/10.1145/2398936.2398994<br><br>
-
 **Murao et al.** — User identification method in a bathtub with a water pressure sensor<br>
 https://www.researchgate.net/publication/330371602_User_identification_method_in_a_bathtub_with_a_water_pressure_sensor<br><br>
-
 **EP1918191A1**<br>
 https://patents.google.com/patent/EP1918191A1<br><br>
-
 **US20150107015A1**<br>
 https://patents.google.com/patent/US20150107015A1<br><br>
-
 **Milesight VS373**<br>
 https://www.milesight.com/iot/product/lorawan-sensor/vs373
 
